@@ -4,7 +4,7 @@ module AuthenticationHelper
     end
 
     def current_user 
-        if (user_id == session[:user_id])
+        if (user_id = session[:user_id])
             @current_user ||= User.find(user_id)
         end
     end

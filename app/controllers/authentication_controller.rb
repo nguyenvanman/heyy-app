@@ -30,6 +30,8 @@ class AuthenticationController < ApplicationController
     end
 
     def new
+        log_out
+        
         render 'new' 
     end
 
