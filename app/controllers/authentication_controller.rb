@@ -15,7 +15,7 @@ class AuthenticationController < ApplicationController
                 if user.valid? 
                     render json: { message: "Success", user: user }, status: response.code
                 else
-                    render json: { message: "Failed", error: JSON.parse(response.body)['error'] }, status: response.code
+                    render json: { message: "Failed", error: JSON.parse(response.body)['error'] }, status: :bad_request
                 end
             end  
         rescue => exception
@@ -27,5 +27,9 @@ class AuthenticationController < ApplicationController
         base_uri = 'https://graph.facebook.com/me'
         fields = 'name,email' 
         return URI("#{base_uri}?access_token=#{params[:access_token]}&fields=#{fields}")
+    end
+
+    def new
+        render 'new' 
     end
 end
