@@ -3,6 +3,10 @@
 
 /* mixins, variables, etc. */
 
+.centered {
+  @include center-block();
+}
+
 $gray-medium-light: #eaeaea;
 
 @mixin box_sizing {

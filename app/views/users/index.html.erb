@@ -1,0 +1,25 @@
+<% provide(:title, 'Admin page') %>
+
+<% if logged_in? %>
+    <div>
+        <h1>Users list</h1>
+        <table class='table table-striped table-bordered'>
+            <thead>
+                <tr>
+                    <th scope='col'>UID</th>
+                    <th scope='col'>Name</th>
+                    <th scope='col'>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @users.each do |user| %>
+                <tr>
+                    <th scope='row'><%= user.uid %></td>
+                    <td><%= user.name %></td>
+                    <td><%= user.email %></td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+<% end %>

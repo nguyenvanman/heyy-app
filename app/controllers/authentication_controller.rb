@@ -39,7 +39,7 @@ class AuthenticationController < ApplicationController
         if (@user&.authenticate(params[:session][:password]))
             log_in @user
             if (@user.is_admin)
-                redirect_to rails_admin_url
+                redirect_to users_path
             else 
                 flash.now[:danger] = 'Only admin can log into this page'
                 render 'new'
@@ -48,5 +48,10 @@ class AuthenticationController < ApplicationController
             flash.now[:danger] = 'Invalid email/password combination'
             render 'new'
         end 
+    end
+
+    def destroy
+        log_out
+        redirect_to login_url 
     end
 end

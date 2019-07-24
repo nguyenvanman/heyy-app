@@ -4,5 +4,8 @@ Rails.application.routes.draw  do
   get '/login', to: 'authentication#new'
   post '/login',   to: 'authentication#create'
   root 'authentication#new'
-  resources :authentication, only: [:authenticate, :new]
+  get '/users', to: 'users#index'
+  delete '/logout',  to: 'authentication#destroy'
+  resources :authentication, only: [:authenticate, :new, :destroy]
+  resources :users
 end
