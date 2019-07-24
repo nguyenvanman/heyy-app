@@ -6,6 +6,11 @@ ruby '2.6.3'
 # rails admin
 gem 'rails_admin', '~> 2.0.0.beta'
 
+
+
+# bcrypt
+gem 'bcrypt',         '3.1.12'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.3'
 # Use postgresql as the database for Active Record
@@ -21,6 +26,11 @@ gem 'uglifier', '>= 1.3.0'
 
 # CORS 
 gem 'rack-cors'
+
+# bootstrap & view paginate
+gem 'bootstrap-sass', '3.3.7'
+gem 'bootstrap-will_paginate', '1.0.0'
+gem 'will_paginate',           '>= 3.1.7'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'

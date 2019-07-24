@@ -32,4 +32,20 @@ class AuthenticationController < ApplicationController
     def new
         render 'new' 
     end
+
+    def create
+        @user = User.find_by(email: params[:session][:email].downcase)
+        if (@user&.authenticate(params[:session][:password]))
+            log_in @user
+            if (@user.is_admin)
+                redirect_to rails_admin_url
+            else 
+                flash.now[:danger] = 'Only admin can log into this page'
+                render 'new'
+            end
+        else
+            flash.now[:danger] = 'Invalid email/password combination'
+            render 'new'
+        end 
+    end
 end
