@@ -11,9 +11,9 @@ class AuthenticationController < ApplicationController
                 request = Net::HTTP::Get.new info_uri
                 response = http.request(request)
                 user_params = JSON.parse response.body
-                user = User.find_or_create_by(name: user_params['name'], email: user_params['email'], uid: user_params['id'])
+                user = User.find_or_create_by(name: user_params['name'], email: user_params['email'], uid: user_params['id'], password_digest: "password")
                 if user.valid? 
-                    render json: { message: "Success", user: user }, status: response.code
+                    render json: { message: "Success", user: UserSerializer.new(user) }, status: response.code
                 else
                     render json: { message: "Failed", error: JSON.parse(response.body)['error'] }, status: :bad_request
                 end
