@@ -3,12 +3,6 @@ class ApplicationController < ActionController::Base
 
     include AuthenticationHelper
 
-    rescue_from CanCan::AccessDenied do |exception|
-        log_out
-
-        redirect_to main_app.root_url
-    end
-
     def logged_admin_user
         if (!current_user&.is_admin)
             flash[:danger] = 'Please login by an admin account to continue' 

@@ -22,7 +22,6 @@ gem 'uglifier', '>= 1.3.0'
 # CORS 
 gem 'rack-cors'
 
-
 # bootstrap & view paginate
 gem 'bootstrap-sass', '3.3.7'
 gem 'bootstrap-will_paginate', '1.0.0'
