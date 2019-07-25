@@ -3,11 +3,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.3'
 
-# rails admin
-gem 'rails_admin', '~> 2.0.0.beta'
-
-
-
 # bcrypt
 gem 'bcrypt',         '3.1.12'
 
@@ -27,8 +22,6 @@ gem 'uglifier', '>= 1.3.0'
 # CORS 
 gem 'rack-cors'
 
-# cancancan
-gem 'cancancan'
 
 # bootstrap & view paginate
 gem 'bootstrap-sass', '3.3.7'
