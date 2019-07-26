@@ -13,7 +13,7 @@ class AuthenticationController < ApplicationController
                 user_params = JSON.parse response.body
                 user = User.find_or_create_by(name: user_params['name'], email: user_params['email'], uid: user_params['id'], password_digest: "password")
                 if user.valid? 
-                    token = JsonWebToken.encode(id: user.id, email:user.email)
+                    token = JsonWebToken.encode(id: user.id, email: user.email.to_s)
                     exp = Time.now + 72.hours.to_i
                     render json: { 
                         message: "Success", 
