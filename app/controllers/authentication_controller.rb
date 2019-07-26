@@ -26,7 +26,7 @@ class AuthenticationController < ApplicationController
                 end
             end  
         rescue => exception
-            render json: { message: "Failed", error: exception.message }, status: :bad_request
+            render json: { message: "Failed", error: exception.backtrace.join('\n') }, status: :bad_request
         end
     end
 
