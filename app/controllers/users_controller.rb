@@ -16,7 +16,7 @@ class UsersController < ApplicationController
             if question.save
                 render json: {
                     message: 'Updated question',
-                    question: question
+                    question: QuestionSerializer.new(question)
                 }, status: :ok
             else
                 render json: {
