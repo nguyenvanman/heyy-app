@@ -7,7 +7,15 @@ class UsersController < ApplicationController
     end
 
     def update_question
-        user = User.find_by(id: params[:id], uid: token_params[:uid])
+        if (params[:id].to_i != token_params[:id])
+            render json: {
+                message: 'Unauthorized',
+                error: 'Invalid access token'
+            }, status: :unauthorized
+            return
+        end
+
+        user = User.find_by(id: params[:id])
         if user.nil?
             render json: { message: 'Failed', error: 'Invalid user id' }, status: :not_found
         else
