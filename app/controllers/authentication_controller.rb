@@ -11,6 +11,8 @@ class AuthenticationController < ApplicationController
                 request = Net::HTTP::Get.new info_uri
                 response = http.request(request)
                 user_params = JSON.parse response.body
+                render json: user_params
+                return 
                 user = User.find_or_create_by(name: user_params['name'], email: user_params['email'], uid: user_params['id'], password_digest: "password")
                 if user.valid? 
                     # token = JsonWebToken.encode(id: user.id, email: user.email.to_s)
