@@ -17,7 +17,7 @@ class AuthenticationController < ApplicationController
                     exp = Time.now + 72.hours.to_i
                     render json: { 
                         message: "Success", 
-                        user: UserSerializer.new(user) ,
+                        user: user ,
                         access_token: token,
                         expired_time: exp
                     }, status: response.code
