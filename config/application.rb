@@ -1,4 +1,6 @@
 require_relative 'boot'
+Bundler.require(*Rails.groups)
+Dotenv::Railtie.load
 
 require 'rails/all'
 
