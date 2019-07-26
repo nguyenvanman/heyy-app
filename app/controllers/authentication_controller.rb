@@ -10,16 +10,16 @@ class AuthenticationController < ApplicationController
             Net::HTTP.start(info_uri.host, info_uri.port, :use_ssl => true) do |http|
                 request = Net::HTTP::Get.new info_uri
                 response = http.request(request)
-                user_params = JSON.parse response.body
-                user = User.find_or_create_by(name: user_params['name'], email: user_params['email'], uid: user_params['id'], password_digest: "password")
+                # user_params = JSON.parse response.body
+                # user = User.find_or_create_by(name: user_params['name'], email: user_params['email'], uid: user_params['id'], password_digest: "password")
                 if user.valid? 
                     token = JsonWebToken.encode(id: user.id, email: user.email.to_s)
                     exp = Time.now + 72.hours.to_i
                     render json: { 
                         message: "Success", 
                         user: UserSerializer.new(user) ,
-                        access_token: token,
-                        expired_time: exp
+                        #access_token: token,
+                        #expired_time: exp
                     }, status: response.code
                 else
                     render json: { message: "Failed", error: JSON.parse(response.body)['error'] }, status: :bad_request
