@@ -4,8 +4,9 @@ Rails.application.routes.draw  do
   post '/login',   to: 'authentication#create'
   root 'authentication#new'
   get '/users', to: 'users#index'
+  get 'users/:id', to: 'users#show'
   post '/users/:id/questions', to: 'users#update_question'
   delete '/logout',  to: 'authentication#destroy'
   resources :authentication, only: [:authenticate, :new, :destroy]
-  resources :users
+  resources :users, only: %i[update_question index show]
 end

@@ -34,4 +34,9 @@ class UsersController < ApplicationController
             end
         end
     end
+
+    def show 
+        @user = User.includes(:questions).where(id: params[:id]).first
+        render 'show'
+    end
 end
