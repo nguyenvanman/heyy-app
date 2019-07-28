@@ -7,9 +7,9 @@ class UsersController < ApplicationController
     end
 
     def update_question
-        if (params[:id].to_i != token_params[:id])
+        if (token_params[:id].nil? || params[:id].to_i != token_params[:id])
             render json: {
-                message: 'Unauthorized',
+                message: :unauthorized,
                 error: 'Invalid access token'
             }, status: :unauthorized
             return
@@ -23,14 +23,14 @@ class UsersController < ApplicationController
             question.answer = params[:answer]
             if question.save
                 render json: {
-                    message: 'Updated question',
+                    message: :ok,
                     question: QuestionSerializer.new(question)
                 }, status: :ok
             else
                 render json: {
-                    message: 'Failed to update question',
+                    message: :bad_request,
                     error: question.errors        
-                }
+                }, status: :bad_request
             end
         end
     end

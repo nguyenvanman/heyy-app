@@ -1,3 +1,5 @@
+require 'jwt'
+
 class JsonWebToken
     HMAC_SECRET = ENV['SECRET_KEY']
   

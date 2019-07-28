@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
 
     rescue_from CanCan::AccessDenied do |exception|
         log_out
-
         redirect_to main_app.root_url
     end
 
@@ -25,6 +24,8 @@ class ApplicationController < ActionController::Base
             render_failed(e.message, :unauthorized)
         rescue JWT::DecodeError => e
             render_failed(e.message, :unauthorized)
+        rescue => e
+            render_failed('Invalid access token', :unauthorized)
         end
     end
     
@@ -36,7 +37,7 @@ class ApplicationController < ActionController::Base
         render json: { message: status, data: output }, status: status
     end
 
-    def render_failed(message, status)
-        render json: { error: message }, status: status
+    def render_failed(error, status)
+        render json: { message: status, error: error }, status: status
     end
 end
