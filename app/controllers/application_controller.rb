@@ -32,12 +32,10 @@ class ApplicationController < ActionController::Base
         @decoded
     end
 
-        # render success response
     def render_success(output, status)
         render json: { message: status, data: output }, status: status
     end
 
-    # render failed resource
     def render_failed(message, status)
         render json: { error: message }, status: status
     end
