@@ -19,7 +19,7 @@ class AuthenticationController < ApplicationController
                         expired_time: Time.now + 72.hours.to_i
                     }, status: :ok
                 else
-                    render json: { message: "Failed", error: JSON.parse(response.body)['error'] }, status: :bad_request
+                    render json: { message: "Failed", error: user.errors }, status: :bad_request
                 end
             end  
         rescue => exception
