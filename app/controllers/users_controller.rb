@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :logged_admin_user, only: [:index]
+    before_action :logged_admin_user, only: [:index, :show]
     before_action :authorize_request, only: [:update_question]
 
     def index 
