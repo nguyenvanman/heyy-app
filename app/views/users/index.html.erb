@@ -13,19 +13,7 @@
                 </tr>
             </thead>
             <tbody>
-                <% @users.each do |user| %>
-                <tr>
-                    <th scope='row'><%= user.uid %></td>
-                    <td align='center'>
-                        <% if (!user.image_url.nil?) %>
-                            <%= image_tag(user.image_url, size: '40x40') %>
-                        <% end %>
-                    </td>
-                    <td><%= user.name %></td>
-                    <td><%= user.email %></td>
-                    <td><%= link_to 'View', user %></td>
-                </tr>
-                <% end %>
+                <%= render @users %>
             </tbody>
         </table>
     </div>
