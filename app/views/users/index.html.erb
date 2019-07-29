@@ -6,6 +6,7 @@
             <thead>
                 <tr>
                     <th scope='col'>UID</th>
+                    <th></th>
                     <th scope='col'>Name</th>
                     <th scope='col'>Email</th>
                     <th scope='col'></th>
@@ -15,6 +16,11 @@
                 <% @users.each do |user| %>
                 <tr>
                     <th scope='row'><%= user.uid %></td>
+                    <td align='center'>
+                        <% if (!user.image_url.nil?) %>
+                            <%= image_tag(user.image_url, size: '40x40') %>
+                        <% end %>
+                    </td>
                     <td><%= user.name %></td>
                     <td><%= user.email %></td>
                     <td><%= link_to 'View', user %></td>
