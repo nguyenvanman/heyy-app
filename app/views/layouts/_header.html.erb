@@ -1,9 +1,10 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container">
+    <%= link_to "Heyy App", users_path , id: "logo" %>
     <nav>
       <ul class="nav navbar-nav navbar-right">
         <% if logged_in? %>
-          <li><%= link_to "Log out", logout_path, method: :delete %></li>
+          <li><%= link_to "Log out", logout_path, method: :delete, data: { confirm: 'Are you sure you want to log out?' }%></li>
         <% end %>
       </ul>
     </nav>
