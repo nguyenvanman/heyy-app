@@ -1,11 +1,18 @@
 class ApplicationController < ActionController::Base
     skip_before_action :verify_authenticity_token
+    before_action :set_no_cache
 
     include AuthenticationHelper
 
     rescue_from CanCan::AccessDenied do |exception|
         log_out
         redirect_to main_app.root_url
+    end
+
+    def set_no_cache
+        response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = 'Fri, 01 Jan 1990 00:00:00 GMT'
     end
 
     def logged_admin_user
