@@ -5,6 +5,7 @@ Rails.application.routes.draw  do
   root 'authentication#new'
   get '/users', to: 'users#index'
   get 'users/:id', to: 'users#show'
+  get 'users/:id/information', to: 'users#info'
   post '/users/me/questions', to: 'users#update_question'
   post '/sign_up', to: 'authentication#sign_up'
   post '/sign_in', to: 'authentication#sign_in'

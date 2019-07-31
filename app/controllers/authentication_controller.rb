@@ -77,11 +77,12 @@ class AuthenticationController < ApplicationController
     end
 
     def sign_in
-        user = User.find_by_email(params[:email])
-        if (user&.authenticate(params[:password]).to_s.downcase) 
+        user = User.find_by_email(params[:email].to_s.downcase)
+        byebug
+        if (!user.nil? && user.authenticate(params[:password])) 
             render_sign_in_response user
         else
-            render json: { message: :bad_request, error: user.errors }, status: :bad_request
+            render json: { message: :bad_request, error: "Invalid email or password" }, status: :bad_request
         end
     end
 

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
     before_action :logged_admin_user, only: [:index, :show]
-    before_action :authorize_request, only: [:update_question]
+    before_action :authorize_request, only: [:update_question, :info]
 
     def index 
         @users = User.all
@@ -23,6 +23,24 @@ class UsersController < ApplicationController
                 render json: { message: :bad_request, error: question.errors }, status: :bad_request
             end
         end
+    end
+
+    def info
+        if (token_params[:id].nil? || token_params[:id] != params[:id].to_i)
+            render json: { message: :unauthorized, error: 'Invalid access token or user id' }, status: :unauthorized
+        else 
+            user = User.includes(:questions).find(params[:id])
+            render json: {
+                message: :ok,
+                user: {
+                    name: user.name, 
+                    email: user.email,
+                    preferences: user.questions
+                }
+            }, status: :ok
+        end
+    rescue ActiveRecord::RecordNotFound => e
+        render json: { message: :not_found, error: e.message }, status: :not_found
     end
 
     def show 
