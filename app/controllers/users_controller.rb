@@ -32,11 +32,7 @@ class UsersController < ApplicationController
             user = User.includes(:questions).find(params[:id])
             render json: {
                 message: :ok,
-                user: {
-                    name: user.name, 
-                    email: user.email,
-                    preferences: user.questions
-                }
+                user: SampleUserSerializer.new(user)
             }, status: :ok
         end
     rescue ActiveRecord::RecordNotFound => e
