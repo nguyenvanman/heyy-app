@@ -69,4 +69,26 @@ class AuthenticationController < ApplicationController
         log_out
         redirect_to login_url 
     end
+
+    def sign_up
+        begin
+            user = User.new(sign_up_params)
+            if user.save
+                render json: { message: :created, user: UserSerializer.new(user) }, status: :created
+            else
+                render json: { message: :bad_request, error: user.errors }, status: :bad_request
+            end
+        rescue ActiveRecord::RecordNotUnique => e
+            render json: { message: :bad_request, error: 'Email is already exist' }, status: :bad_request
+        end
+    end
+
+    def sign_up_params
+        sign_up_params = Hash.new
+        sign_up_params[:name] = params[:name]
+        sign_up_params[:email] = params[:email]
+        sign_up_params[:password] = params[:password]
+        sign_up_params[:password_confirmation] = params[:password]
+        sign_up_params
+    end
 end

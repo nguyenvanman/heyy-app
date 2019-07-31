@@ -9,6 +9,10 @@ class ApplicationController < ActionController::Base
         redirect_to main_app.root_url
     end
 
+    rescue_from ActiveRecord::RecordNotUnique do |e|
+        render_failed(:bad_request, e.message)
+    end
+
     def set_no_cache
         response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
         response.headers['Pragma'] = 'no-cache'
