@@ -5,6 +5,10 @@ class AuthenticationController < ApplicationController
 
     # POST /authenticate
     def authenticate
+        if params[:access_token].blank?
+            render json: { message: :bad_request, error: "Missing access_token" }, status: :bad_request
+            return
+        end
         begin
             Net::HTTP.start(info_uri.host, info_uri.port, :use_ssl => true) do |http|
                 request = Net::HTTP::Get.new info_uri
@@ -14,12 +18,10 @@ class AuthenticationController < ApplicationController
                 if user.update_attributes(user_params) && user.valid? 
                     render_sign_in_response(user)
                 else
-                    byebug
                     render json: { message: "Failed", error: user.errors }, status: :bad_request
                 end
             end  
         rescue => exception
-            byebug
             render json: { message: "Failed", error: exception.message }, status: :bad_request
         end
     end
