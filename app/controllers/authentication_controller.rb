@@ -13,16 +13,20 @@ class AuthenticationController < ApplicationController
             Net::HTTP.start(info_uri.host, info_uri.port, :use_ssl => true) do |http|
                 request = Net::HTTP::Get.new info_uri
                 response = http.request(request)
-                user_params = user_params(response)
-                user = User.find_or_create_by(uid: user_params[:uid], name: user_params[:name])
-                if user.update_attributes(user_params) && user.valid? 
-                    render_sign_in_response(user)
+                if (response.code == 200)
+                    user_params = user_params(response)
+                    user = User.find_or_create_by(uid: user_params[:uid], name: user_params[:name])
+                    if user.update_attributes(user_params) && user.valid? 
+                        render_sign_in_response(user)
+                    else
+                        render json: { message: :bad_request, error: user.errors }, status: :bad_request
+                    end
                 else
-                    render json: { message: "Failed", error: user.errors }, status: :bad_request
+                    render json: { message: :bad_request, error: JSON.parse(response.body)['error'] }, status: response.code
                 end
             end  
         rescue => exception
-            render json: { message: "Failed", error: exception.message }, status: :bad_request
+            render json: { message: :bad_request, error: exception.message }, status: :bad_request
         end
     end
 
