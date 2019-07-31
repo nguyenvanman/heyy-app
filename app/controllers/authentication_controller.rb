@@ -71,15 +71,11 @@ class AuthenticationController < ApplicationController
     end
 
     def sign_up
-        begin
-            user = User.new(sign_up_params)
-            if user.save
-                render json: { message: :created, user: UserSerializer.new(user) }, status: :created
-            else
-                render json: { message: :bad_request, error: user.errors }, status: :bad_request
-            end
-        rescue ActiveRecord::RecordNotUnique => e
-            render json: { message: :bad_request, error: 'Email is already exist' }, status: :bad_request
+        user = User.new(sign_up_params)
+        if user.save
+            render json: { message: :created, user: UserSerializer.new(user) }, status: :created
+        else
+            render json: { message: :bad_request, error: user.errors }, status: :bad_request
         end
     end
 
