@@ -84,7 +84,6 @@ class AuthenticationController < ApplicationController
 
     def sign_in
         user = User.find_by_email(params[:email].to_s.downcase)
-        byebug
         if (!user.nil? && user.authenticate(params[:password])) 
             render_sign_in_response user
         else
