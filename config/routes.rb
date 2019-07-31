@@ -7,6 +7,7 @@ Rails.application.routes.draw  do
   get 'users/:id', to: 'users#show'
   post '/users/me/questions', to: 'users#update_question'
   post '/sign_up', to: 'authentication#sign_up'
+  post '/sign_in', to: 'authentication#sign_in'
   delete '/logout',  to: 'authentication#destroy'
   resources :authentication, only: [:authenticate, :new, :destroy, :sign_up]
   resources :users, only: %i[update_question index show]

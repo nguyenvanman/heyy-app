@@ -12,17 +12,14 @@ class AuthenticationController < ApplicationController
                 user_params = user_params(response)
                 user = User.find_or_create_by(uid: user_params[:uid], name: user_params[:name])
                 if user.update_attributes(user_params) && user.valid? 
-                    render json: { 
-                        message: "Success", 
-                        user: UserSerializer.new(user) ,
-                        access_token: JsonWebToken.encode(id: user.id),
-                        expired_time: Time.now + 72.hours.to_i
-                    }, status: :ok
+                    render_sign_in_response(user)
                 else
+                    byebug
                     render json: { message: "Failed", error: user.errors }, status: :bad_request
                 end
             end  
         rescue => exception
+            byebug
             render json: { message: "Failed", error: exception.message }, status: :bad_request
         end
     end
@@ -77,6 +74,24 @@ class AuthenticationController < ApplicationController
         else
             render json: { message: :bad_request, error: user.errors }, status: :bad_request
         end
+    end
+
+    def sign_in
+        user = User.find_by_email(params[:email])
+        if (user&.authenticate(params[:password]).to_s.downcase) 
+            render_sign_in_response user
+        else
+            render json: { message: :bad_request, error: user.errors }, status: :bad_request
+        end
+    end
+
+    def render_sign_in_response(user)
+        render json: { 
+            message: "Success", 
+            user: UserSerializer.new(user) ,
+            access_token: JsonWebToken.encode(id: user.id),
+            expired_time: Time.now + 72.hours.to_i
+        }, status: :ok
     end
 
     def sign_up_params
