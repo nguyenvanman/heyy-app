@@ -6,7 +6,7 @@ class AuthenticationController < ApplicationController
     # POST /authenticate
     def authenticate
         if params[:access_token].blank?
-            render json: { message: :bad_request, error: "Missing access_token" }, status: :bad_request
+            render_error('Missing access token', :bad_request)
             return
         end
         begin
@@ -19,14 +19,14 @@ class AuthenticationController < ApplicationController
                     if user.update_attributes(user_params) && user.valid? 
                         render_sign_in_response(user)
                     else
-                        render json: { message: :bad_request, error: user.errors }, status: :bad_request
+                        render_error(user.errors, :bad_request)
                     end
                 else
-                    render json: { message: :bad_request, error: JSON.parse(response.body)['error'] }, status: response.code
+                    render_error(JSON.parse(response.body)['error'], response.code)
                 end
             end  
         rescue => exception
-            render json: { message: :bad_request, error: exception.message }, status: :bad_request
+            render_error(exception.message, :bad_request)
         end
     end
 
@@ -78,7 +78,7 @@ class AuthenticationController < ApplicationController
         if user.save
             render json: { message: :created, user: UserSerializer.new(user) }, status: :created
         else
-            render json: { message: :bad_request, error: user.errors }, status: :bad_request
+            render_error(user.errors, :bad_request)
         end
     end
 
@@ -87,13 +87,13 @@ class AuthenticationController < ApplicationController
         if (!user.nil? && user.authenticate(params[:password])) 
             render_sign_in_response user
         else
-            render json: { message: :bad_request, error: "Invalid email or password" }, status: :bad_request
+            render_error('Invalid email or password', :bad_request)
         end
     end
 
     def render_sign_in_response(user)
         render json: { 
-            message: "Success", 
+            message: :ok, 
             user: UserSerializer.new(user) ,
             access_token: JsonWebToken.encode(id: user.id),
             expired_time: Time.now + 72.hours.to_i

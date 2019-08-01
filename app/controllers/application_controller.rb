@@ -9,10 +9,6 @@ class ApplicationController < ActionController::Base
         redirect_to main_app.root_url
     end
 
-    rescue_from ActiveRecord::RecordNotUnique do |e|
-        render_failed(:bad_request, e.message)
-    end
-
     def set_no_cache
         response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
         response.headers['Pragma'] = 'no-cache'
@@ -32,11 +28,11 @@ class ApplicationController < ActionController::Base
         begin
             @decoded = JsonWebToken.decode token
         rescue ActiveRecord::RecordNotFound => e
-            render_failed(e.message, :unauthorized)
+            render_error(e.message, :unauthorized)
         rescue JWT::DecodeError => e
-            render_failed(e.message, :unauthorized)
+            render_error(e.message, :unauthorized)
         rescue => e
-            render_failed('Invalid access token', :unauthorized)
+            render_error('Invalid access token', :unauthorized)
         end
     end
     
@@ -48,7 +44,7 @@ class ApplicationController < ActionController::Base
         render json: { message: status, data: output }, status: status
     end
 
-    def render_failed(error, status)
+    def render_error(error, status)
         render json: { message: status, error: error }, status: status
     end
 end
