@@ -3,4 +3,5 @@ class Question < ApplicationRecord
 
     validates :question, presence: true
     validates :answer, presence: true
+    validates :application, presence: true
 end

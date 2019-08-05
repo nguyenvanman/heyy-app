@@ -17,6 +17,7 @@ class UsersController < ApplicationController
         else
             question = user.questions.find_or_initialize_by(question: params[:question])
             question.answer = params[:answer]
+            question.application = params[:application]
             if question.save
                 render json: { message: :ok, question: QuestionSerializer.new(question) }, status: :ok
             else
