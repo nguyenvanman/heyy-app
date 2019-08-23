@@ -42,7 +42,7 @@ class UsersController < ApplicationController
             render_error('Missing email address', :bad_request) and return
         end 
         is_existed = User.find_by_email(params[:email]).present?
-        render json: { is_available: !is_existed }, status: :ok
+        render json: { message: :ok, is_available: !is_existed }, status: :ok
     end
 
     def show 

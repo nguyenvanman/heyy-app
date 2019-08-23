@@ -36,6 +36,8 @@ class PasswordResetsController < ApplicationController
     end
     @user.create_reset_digest
     @user.send_password_reset_email
+
+    render json: { message: :ok, detail: "Sent" }
   end
 
   private 
