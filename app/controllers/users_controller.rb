@@ -3,7 +3,7 @@ class UsersController < ApplicationController
     before_action :authorize_request, only: [:update_question, :info]
 
     def index 
-        @users = User.all
+        @users = User.order(:id).all
     end
 
     def update_question
