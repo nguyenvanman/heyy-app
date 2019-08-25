@@ -20,6 +20,10 @@ class PasswordResetsController < ApplicationController
   end
 
   def edit
+    if @user.nil? 
+      flash[:danger] = "Invalid or expired link"
+      redirect_to new_password_reset_url
+    end
   end
 
   def user_params
@@ -30,7 +34,6 @@ class PasswordResetsController < ApplicationController
   end
 
   def reset
-    @user = User.find_by_email(params[:email])
     if @user.nil? 
       render_error('Invalid or unregistered email address', :bad_request) and return
     end
@@ -47,7 +50,7 @@ class PasswordResetsController < ApplicationController
   end
 
   def valid_user
-    unless @user.authenticated?(params[:id]) || @user.password_reset_expired?
+    unless @user.nil? || @user.authenticated?(params[:id]) || @user.password_reset_expired?
       flash[:danger] = "Invalid or expired link" 
       redirect_to new_password_reset_url
     end
