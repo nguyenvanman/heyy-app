@@ -50,7 +50,7 @@ class PasswordResetsController < ApplicationController
   end
 
   def valid_user
-    unless @user.nil? || @user.authenticated?(params[:id]) || @user.password_reset_expired?
+    unless (@user && @user.authenticated?(params[:id]) && !@user.password_reset_expired?)
       flash[:danger] = "Invalid or expired link" 
       redirect_to new_password_reset_url
     end
