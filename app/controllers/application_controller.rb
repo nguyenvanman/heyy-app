@@ -9,6 +9,27 @@ class ApplicationController < ActionController::Base
         redirect_to main_app.root_url
     end
 
+    rescue_from ActionController::ParameterMissing, with: :missing_params
+    rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+    rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
+    rescue_from ActiveRecord::RecordNotUnique, with: :record_not_unique
+
+    def missing_params(e)
+        render_error(e, :bad_request)
+    end
+
+    def record_not_found(e)
+        render_error(e, :not_found)
+    end
+
+    def record_invalid(e)
+        render_error(e, :bad_request)
+    end
+
+    def record_not_unique(e)
+        render_error(e, :bad_request)
+    end
+
     def set_no_cache
         response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
         response.headers['Pragma'] = 'no-cache'
