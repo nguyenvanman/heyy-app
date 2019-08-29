@@ -6,10 +6,6 @@ class Question < ApplicationRecord
     validates :application, presence: true
 
     def answer
-        unless answers.blank?
-            answers.order(created_at: :desc).first.answer    
-        else
-            "" 
-        end
+        lastest_answer
     end
 end
