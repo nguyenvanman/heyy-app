@@ -6,9 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 # User.create(name: 'Admin', email: 'admin@admin.com', password: 'admin', password_confirmation: 'admin', is_admin: true)
-Question.all.each do |question|
-    unless question.answers.blank?
-        answer = question.answers.order(created_at: :desc).first.answer
-        question.update_attributes(lastest_answer: answer)    
-    end    
-end
+# Question.all.each do |question|
+#     unless question.answers.blank?
+#         answer = question.answers.order(created_at: :desc).first.answer
+#         question.update_attributes(lastest_answer: answer)    
+#     end    
+# end
