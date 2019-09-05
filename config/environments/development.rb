@@ -63,12 +63,11 @@ Rails.application.configure do
   host = 'localhost:3000'
   config.action_mailer.default_url_options = { host: host }
   ActionMailer::Base.smtp_settings = {
-      address: 'smtp.sendgrid.net',
-      port: '587',
-      authentication: :plain,
-      user_name: 'app139892177@heroku.com',
-      password: 'vigwpzlt2118',
-      domain: 'heroku.com',
-      enable_starttls_auto: true
+    address: 'smtp.gmail.com',
+    port: '587',
+    authentication: :plain,
+    user_name: ENV['GOOGLE_EMAIL'],
+    password: ENV['GOOGLE_PASSWORD'],
+    enable_starttls_auto: true
   }
 end
