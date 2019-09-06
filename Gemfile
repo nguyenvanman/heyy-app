@@ -37,6 +37,8 @@ gem 'will_paginate',           '>= 3.1.7'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 
+gem "letter_opener", :group => :development
+
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 

@@ -60,6 +60,8 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.delivery_method = :letter_opener
+  config.active_job.queue_adapter = :async
   host = 'localhost:3000'
   config.action_mailer.default_url_options = { host: host }
   ActionMailer::Base.smtp_settings = {
