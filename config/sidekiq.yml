@@ -1,5 +1,0 @@
-:concurrency: 10
-:logfile: ./log/sidekiq.log
-:queues:
-  - default
-  - mailers
