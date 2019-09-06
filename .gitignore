@@ -29,3 +29,4 @@
 .env
 *.rdb
 dumb.rdb
+.env
