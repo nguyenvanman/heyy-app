@@ -1,3 +1,3 @@
 class QuestionSerializer < ActiveModel::Serializer
-  attributes :id, :question, :answer, :application
+  attributes :id, :content, :answer, :application
 end
