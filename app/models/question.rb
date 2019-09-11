@@ -6,6 +6,6 @@ class Question < ApplicationRecord
     validates :application, presence: true
 
     def answer
-        lastest_answer
+        latest_answer
     end
 end

@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     def update_question
         @question = @user.questions.find_or_initialize_by(question: question_params[:question])
         @question.application = question_params[:application]
-        @question.lastest_answer = question_params[:answer]
+        @question.latest_answer = question_params[:answer]
         if @question.save
             @question.answers.create(answer: question_params[:answer])
             render json: { message: :ok, question: QuestionSerializer.new(@question) }, status: :ok
