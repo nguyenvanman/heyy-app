@@ -5,7 +5,10 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-# User.create(name: 'Admin', email: 'admin@admin.com', password: 'admin', password_confirmation: 'admin', is_admin: true)
+User.create(name: 'Admin', email: 'admin@admin.com', password: 'admin123', password_confirmation: 'admin123', is_admin: true)
+10.times do
+    User.create(name: Faker::Name.name, email: Faker::Internet.email, password: 'password', password_confirmation: 'password', is_admin: false)     
+end
 # Question.all.each do |question|
 #     unless question.answers.blank?
 #         answer = question.answers.order(created_at: :desc).first.answer
