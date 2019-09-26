@@ -1,4 +1,4 @@
 class SampleUserSerializer < ActiveModel::Serializer
-  attributes :name, :email, :image_url
-  has_many :questions, serializer: QuestionSerializer
+  attributes :name, :email, :image_url, :questions
+  # has_many :questions, serializer: QuestionSerializer
 end

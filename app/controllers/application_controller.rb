@@ -4,11 +4,6 @@ class ApplicationController < ActionController::Base
 
     include AuthenticationHelper
 
-    rescue_from CanCan::AccessDenied do |exception|
-        log_out
-        redirect_to main_app.root_url
-    end
-
     rescue_from ActionController::ParameterMissing, with: :missing_params
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
     rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
@@ -67,5 +62,9 @@ class ApplicationController < ActionController::Base
 
     def render_error(error, status)
         render json: { message: status, error: error }, status: status
+    end
+
+    def get_current_user
+        @current_user = User.find(token_params[:id])
     end
 end

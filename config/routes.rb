@@ -4,8 +4,14 @@ Rails.application.routes.draw  do
   scope 'users' do
     get 'email/available',          to: 'users#available'
     get ':id/information',          to: 'users#info'
-    post 'me/questions',            to: 'users#update_question'
-    get 'me/questions/:question_id/history', to: 'users#question_history'
+    # post 'me/questions',            to: 'users#update_question'
+    # get 'me/questions/:question_id/history', to: 'users#question_history'
+
+    scope 'me' do
+      scope 'questions' do
+        post '', to: 'questions#update'
+      end 
+    end
 
     post 'password/reset',          to: 'password_resets#reset'
   end
