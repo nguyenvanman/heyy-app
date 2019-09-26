@@ -17,7 +17,7 @@ class User < ApplicationRecord
                         uniqueness: { case_sensitive: false }
 
     def questions
-        self.user_questions.map { |uq| QuestionSerializer.new(uq.question, uq).call }
+        self.user_questions.map { |uq| QuestionSerializer.new(uq.question, uq).serialize }
     end
     
     def self.digest(string)
