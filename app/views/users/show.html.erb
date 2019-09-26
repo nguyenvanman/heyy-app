@@ -26,9 +26,9 @@
                     <tbody>
                         <% @user.questions.each do |question| %>
                             <tr>
-                                <td><%= question.question %>
-                                <td><%= question.answer %>
-                                <td><%= question.application %>
+                                <td><%= question.dig(:question) %>
+                                <td><%= question.dig(:answer) %>
+                                <td><%= question.dig(:application) %>
                             </tr>
                         <% end %>
                     </tbody>
