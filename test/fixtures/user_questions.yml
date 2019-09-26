@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  question_id: 
+  lastest_answer: MyText
+  application: MyText
+  traversal_path: 
+
+two:
+  user_id: 
+  question_id: 
+  lastest_answer: MyText
+  application: MyText
+  traversal_path: 
