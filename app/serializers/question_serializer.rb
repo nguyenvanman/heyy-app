@@ -4,7 +4,7 @@ class QuestionSerializer
     @user_question = user_question
   end
 
-  def call
+  def serialize
     {
       id: @question.id,
       question: @question.content,
