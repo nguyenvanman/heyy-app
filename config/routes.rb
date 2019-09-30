@@ -10,6 +10,11 @@ Rails.application.routes.draw  do
         post '', to: 'questions#update'
         get ':question_id/history', to: 'questions#history' 
       end 
+
+      scope 'saved_contents' do
+        post '', to: 'saved_contents#create'
+        get '', to: 'saved_contents#index'
+      end
     end
 
     post 'password/reset',          to: 'password_resets#reset'

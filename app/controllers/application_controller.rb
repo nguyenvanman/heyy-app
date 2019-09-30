@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
     rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
     rescue_from ActiveRecord::RecordNotUnique, with: :record_not_unique
+    rescue_from ArgumentError, with: :argument_error
 
     def missing_params(e)
         render_error(e, :bad_request)
@@ -22,6 +23,10 @@ class ApplicationController < ActionController::Base
     end
 
     def record_not_unique(e)
+        render_error(e, :bad_request)
+    end
+
+    def argument_error(e)
         render_error(e, :bad_request)
     end
 
