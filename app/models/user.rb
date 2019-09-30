@@ -10,6 +10,8 @@ class User < ApplicationRecord
     has_many :user_questions, dependent: :destroy
     has_many :questions, through: :user_questions, source: :question
 
+    has_many :saved_contents
+
     validates :name, presence: true
     validates :email,   presence: true,
                         length: { maximum: 255},
