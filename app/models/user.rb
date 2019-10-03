@@ -54,6 +54,11 @@ class User < ApplicationRecord
         UserMailer.password_reset(self, self.reset_token).deliver_later
     end
 
+    def increase_sign_in_count
+        self.sign_in_count = sign_in_count + 1
+        save!
+    end
+
     private 
 
     def downcase_email

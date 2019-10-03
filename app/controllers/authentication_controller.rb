@@ -17,6 +17,7 @@ class AuthenticationController < ApplicationController
                     user_params = user_params(response)
                     user = User.find_or_create_by(uid: user_params[:uid], name: user_params[:name])
                     if user.update_attributes(user_params) && user.valid? 
+                        user.increase_sign_in_count
                         render_sign_in_response(user)
                     else
                         render_error(user.errors, :bad_request)
@@ -84,7 +85,8 @@ class AuthenticationController < ApplicationController
 
     def sign_in
         user = User.find_by_email(params[:email].to_s.downcase)
-        if (!user.nil? && user.authenticate(params[:password])) 
+        if (!user.nil? && user.authenticate(params[:password]))
+            user.increase_sign_in_count
             render_sign_in_response user
         else
             render_error('Invalid email or password', :bad_request)
@@ -94,7 +96,8 @@ class AuthenticationController < ApplicationController
     def render_sign_in_response(user)
         render json: { 
             message: :ok, 
-            user: UserSerializer.new(user) ,
+            user: UserSerializer.new(user),
+            sign_in_count: user.sign_in_count,
             access_token: JsonWebToken.encode(id: user.id),
             expired_time: Time.now + 72.hours.to_i
         }, status: :ok
