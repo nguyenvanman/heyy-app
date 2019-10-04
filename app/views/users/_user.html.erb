@@ -3,7 +3,7 @@
     <td scope='row'><%= user.uid %></td>
     <td align='center'>
         <% if (!user.image_url.nil?) %>
-            <%= image_tag(user.image_url, size: '40x40') %>
+            <img class="img-avatar" src="<%= user.image_url %>">
         <% end %>
     </td>
     <td><%= user.name %></td>

@@ -83,7 +83,31 @@ p {
   }
 }
 
-img {
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end;
+  margin-left: 10px;
+}
+
+.card-text {
+  margin-bottom: -8px;
+}
+
+.card {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.img-avatar {
+  max-width: 50px;
+  max-height: 50px;
+}
+
+.card-img-top {
+  max-width: 200px;
+  max-height: 200px;
+  margin-bottom: 0px;
 }
 
 /* footer */
