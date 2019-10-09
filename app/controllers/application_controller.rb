@@ -45,8 +45,10 @@ class ApplicationController < ActionController::Base
 
     def authorize_request
         header = request.headers['Authorization']
+        if header.nil? 
+            header = params[:token]
+        end
         token = header.split(' ').last if header
-        # token = header.split(' ').last if header
         begin
             @decoded = JsonWebToken.decode token
         rescue ActiveRecord::RecordNotFound => e
