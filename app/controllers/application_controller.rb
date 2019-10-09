@@ -44,7 +44,12 @@ class ApplicationController < ActionController::Base
     end
 
     def authorize_request
-        header = request.headers['Authorization']
+        header = ''
+        if headers['Authorization'].present?
+            header = headers['Authorization'].split(' ').last
+        elsif params[:token].present?
+            header = params[:token].split(' ').last
+        end
         token = header.split(' ').last if header
         begin
             @decoded = JsonWebToken.decode token
