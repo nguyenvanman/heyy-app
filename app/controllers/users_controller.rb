@@ -22,6 +22,12 @@ class UsersController < ApplicationController
         render json: { message: :ok, is_available: !is_existed }, status: :ok
     end
 
+    def reset_sign_in_count
+        user = User.find(reset_sign_in_count_params[:user_id])
+        user.update_attributes(sign_in_count: reset_sign_in_count_params[:sign_in_count])
+        render json: { message: :ok, user: UserSerializer.new(user), sign_in_count: user.sign_in_count }
+    end
+
     def get_user
         params.require(:id)
         @user = User.find(params[:id])
@@ -31,5 +37,10 @@ class UsersController < ApplicationController
         if (token_params[:id].nil? || token_params[:id] != params[:id].to_i)
             render_error('Invalid access token or user id', :unauthorized)
         end
+    end
+
+    def reset_sign_in_count_params
+        params.require(%i[user_id sign_in_count])
+        params.permit(:user_id, :sign_in_count)
     end
 end

@@ -2,6 +2,7 @@ Rails.application.routes.draw  do
   default_url_options host: 'localhost:3000'
 
   scope 'users' do
+    get ':user_id/sign_in_count/reset', to: 'users#reset_sign_in_count'
     get 'email/available',          to: 'users#available'
     get ':id/information',          to: 'users#info'
 

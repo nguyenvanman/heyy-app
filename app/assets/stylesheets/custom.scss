@@ -173,6 +173,16 @@ aside {
   margin-top: 15px;
 }
 
+th.answer {
+  white-space: nowrap; 
+  width: 300px; 
+  overflow: hidden;
+  text-overflow:ellipsis;
+}
+
+th.answer:hover {
+  overflow: visible;
+}
 /* forms */
 
 input, textarea, select, .uneditable-input {
