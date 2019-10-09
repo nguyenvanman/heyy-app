@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
     before_action :logged_admin_user, only: %i[index show]
-    before_action :authorize_request, only: %i[info]
+    before_action :authorize_request, only: %i[info reset_sign_in_count]
     before_action :valid_user, only: %i[info]
     before_action :get_user, only: %i[info show]
+    before_action :get_current_user, only: %i[reset_sign_in_count]
 
     def index 
         @users = User.order(:id).all
@@ -23,9 +24,8 @@ class UsersController < ApplicationController
     end
 
     def reset_sign_in_count
-        user = User.find(reset_sign_in_count_params[:user_id])
-        user.update_attributes(sign_in_count: reset_sign_in_count_params[:sign_in_count])
-        render json: { message: :ok, user: UserSerializer.new(user), sign_in_count: user.sign_in_count }
+        @current_user.update_attributes(sign_in_count: reset_sign_in_count_params[:sign_in_count])
+        render json: { message: :ok, user: UserSerializer.new(@current_user), sign_in_count: @current_user.sign_in_count }
     end
 
     def get_user
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
     end
 
     def reset_sign_in_count_params
-        params.require(%i[user_id sign_in_count])
-        params.permit(:user_id, :sign_in_count)
+        params.require(%i[sign_in_count])
+        params.permit(:sign_in_count)
     end
 end
