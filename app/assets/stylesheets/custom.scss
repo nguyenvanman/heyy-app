@@ -173,11 +173,15 @@ aside {
   margin-top: 15px;
 }
 
-th.answer {
+td.answer {
   white-space: nowrap; 
-  width: 300px; 
+  max-width: 400px; 
   overflow: hidden;
   text-overflow:ellipsis;
+}
+
+td.answer:hover {
+  overflow: visible;
 }
 
 .card-text {
