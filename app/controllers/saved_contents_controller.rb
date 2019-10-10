@@ -12,8 +12,8 @@ class SavedContentsController < ApplicationController
   end
 
   def saved_content_params
-    params.require(%i[type content])
+    params.require(%i[type mhid name])
     params[:content_type] = params[:type]
-    params.permit(:content_type, :content)
+    params.permit(:content_type, :mhid, :name, :image)
   end
 end
