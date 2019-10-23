@@ -5,10 +5,6 @@ class AuthenticationController < ApplicationController
 
   # POST /authenticate
   def authenticate
-    if params[:access_token].blank?
-      render_error("Missing access token", :bad_request)
-      return
-    end
     begin
       Net::HTTP.start(info_uri.host, info_uri.port, :use_ssl => true) do |http|
         request = Net::HTTP::Get.new info_uri
@@ -45,7 +41,7 @@ class AuthenticationController < ApplicationController
   def info_uri
     base_uri = "https://graph.facebook.com/me"
     fields = "name,email"
-    return URI("#{base_uri}?access_token=#{params[:access_token]}&fields=#{fields}")
+    return URI("#{base_uri}?access_token=#{sign_in_facebook_params[:access_token]}&fields=#{fields}")
   end
 
   def new
@@ -112,5 +108,10 @@ class AuthenticationController < ApplicationController
     params.require(%i[name email password])
     params[:password_confirmation] = params[:password]
     params.permit(:name, :email, :password, :password_confirmation)
+  end
+
+  def sign_in_facebook_params
+    params.require(:access_token)
+    params.permit(:access_token)
   end
 end
