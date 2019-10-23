@@ -8,19 +8,19 @@ class PasswordResetsController < ApplicationController
   def update_password
     if params[:user][:password].blank?
       flash[:danger] = "Password must not be empty"
-      render 'edit'
-    elsif params[:user][:password] != params[:user][:password_confirmation] 
+      render "edit"
+    elsif params[:user][:password] != params[:user][:password_confirmation]
       flash[:danger] = "Password not matched"
-      render 'edit'
+      render "edit"
     else
-      @user.update_attributes(user_params) 
+      @user.update_attributes(user_params)
       flash[:success] = "Password has been reset"
       redirect_to new_password_reset_url
     end
   end
 
   def edit
-    if @user.nil? 
+    if @user.nil?
       flash[:danger] = "Invalid or expired link"
       redirect_to new_password_reset_url
     end
@@ -34,8 +34,8 @@ class PasswordResetsController < ApplicationController
   end
 
   def reset
-    if @user.nil? 
-      render_error('Invalid or unregistered email address', :bad_request) and return
+    if @user.nil?
+      render_error("Invalid or unregistered email address", :bad_request) and return
     end
     @user.create_reset_digest
     @user.send_password_reset_email
@@ -43,7 +43,7 @@ class PasswordResetsController < ApplicationController
     render json: { message: :ok, detail: "Sent" }
   end
 
-  private 
+  private
 
   def get_user
     @user = User.find_by_email(params[:email])
@@ -51,7 +51,7 @@ class PasswordResetsController < ApplicationController
 
   def valid_user
     unless (@user && @user.authenticated?(params[:id]) && !@user.password_reset_expired?)
-      flash[:danger] = "Invalid or expired link" 
+      flash[:danger] = "Invalid or expired link"
       redirect_to new_password_reset_url
     end
   end

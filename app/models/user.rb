@@ -1,67 +1,67 @@
 class User < ApplicationRecord
-    before_save :downcase_email
+  before_save :downcase_email
 
-    attr_accessor :reset_token
-    
-    VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  attr_accessor :reset_token
 
-    has_secure_password
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
-    has_many :user_questions, dependent: :destroy
-    has_many :questions, through: :user_questions, source: :question
+  has_secure_password
 
-    has_many :saved_contents, -> { order(created_at: :desc) }
+  has_many :user_questions, dependent: :destroy
+  has_many :questions, through: :user_questions, source: :question
 
-    validates :name, presence: true
-    validates :email,   presence: true,
-                        length: { maximum: 255},
-                        format: { with: VALID_EMAIL_REGEX },
-                        uniqueness: { case_sensitive: false }
+  has_many :saved_contents, -> { order(created_at: :desc) }
 
-    def questions
-        self.user_questions.map { |uq| QuestionSerializer.new(uq.question, uq).serialize }
-    end
-    
-    def self.digest(string)
-        cost = if ActiveModel::SecurePassword.min_cost
-                BCrypt::Engine::MIN_COST
-            else
-                BCrypt::Engine.cost
-            end
-        BCrypt::Password.create(string, cost: cost)
-    end
+  validates :name, presence: true
+  validates :email, presence: true,
+                    length: { maximum: 255 },
+                    format: { with: VALID_EMAIL_REGEX },
+                    uniqueness: { case_sensitive: false }
 
-    def authenticated?(token)
-        digest = send(:reset_digest)
-        return false if digest.nil?
-        BCrypt::Password.new(digest).is_password?(token)
-    end
+  def questions
+    self.user_questions.map { |uq| QuestionSerializer.new(uq.question, uq).serialize }
+  end
 
-    def password_reset_expired?
-        reset_sent_at < 1.hours.ago
-    end
+  def self.digest(string)
+    cost = if ActiveModel::SecurePassword.min_cost
+             BCrypt::Engine::MIN_COST
+           else
+             BCrypt::Engine.cost
+           end
+    BCrypt::Password.create(string, cost: cost)
+  end
 
-    def User.new_token
-        SecureRandom.urlsafe_base64
-    end
+  def authenticated?(token)
+    digest = send(:reset_digest)
+    return false if digest.nil?
+    BCrypt::Password.new(digest).is_password?(token)
+  end
 
-    def create_reset_digest
-        self.reset_token = User.new_token
-        update_attributes(reset_digest: User.digest(reset_token), reset_sent_at: Time.zone.now)
-    end
+  def password_reset_expired?
+    reset_sent_at < 1.hours.ago
+  end
 
-    def send_password_reset_email
-        UserMailer.password_reset(self, self.reset_token).deliver_later
-    end
+  def User.new_token
+    SecureRandom.urlsafe_base64
+  end
 
-    def increase_sign_in_count
-        self.sign_in_count = sign_in_count + 1
-        save!
-    end
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_attributes(reset_digest: User.digest(reset_token), reset_sent_at: Time.zone.now)
+  end
 
-    private 
+  def send_password_reset_email
+    UserMailer.password_reset(self, self.reset_token).deliver_later
+  end
 
-    def downcase_email
-        self.email = email.downcase
-    end
+  def increase_sign_in_count
+    self.sign_in_count = sign_in_count + 1
+    save!
+  end
+
+  private
+
+  def downcase_email
+    self.email = email.downcase
+  end
 end
