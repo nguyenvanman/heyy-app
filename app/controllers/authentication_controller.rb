@@ -84,8 +84,8 @@ class AuthenticationController < ApplicationController
   end
 
   def sign_in
-    user = User.find_by_email(params[:email].to_s.downcase)
-    if (!user.nil? && user.authenticate(params[:password]))
+    user = User.find_by_email(sign_in_params[:email].to_s.downcase)
+    if (!user.nil? && user.authenticate(sign_in_params[:password]))
       user.increase_sign_in_count
       render_sign_in_response user
     else
@@ -103,12 +103,14 @@ class AuthenticationController < ApplicationController
            }, status: :ok
   end
 
+  def sign_in_params
+    params.require(%i[email password])
+    params.permit(:email, :password)
+  end
+
   def sign_up_params
-    sign_up_params = Hash.new
-    sign_up_params[:name] = params[:name]
-    sign_up_params[:email] = params[:email]
-    sign_up_params[:password] = params[:password]
-    sign_up_params[:password_confirmation] = params[:password]
-    sign_up_params
+    params.require(%i[name email password])
+    params[:password_confirmation] = params[:password]
+    params.permit(:name, :email, :password, :password_confirmation)
   end
 end
